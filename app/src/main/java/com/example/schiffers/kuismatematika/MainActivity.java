@@ -35,13 +35,16 @@ public class MainActivity extends AppCompatActivity {
         b=(int)(Math.random()*a+1);
         angka1.setText(Integer.toString(a));
         angka2.setText(Integer.toString(b));
+        txtjwb.setText("Your Answer is ");
     }
     public void cekans(View view) {
-        int a,b,c,d,hasil=0;
-        d=(int)(Math.random()*100+1);
+        int a,b,c,win,lose,hasil=0;
+
         a=Integer.parseInt(angka1.getText().toString());
         b=Integer.parseInt(angka2.getText().toString());
         c=Integer.parseInt(isi.getText().toString());
+        win=Integer.parseInt(txtjb.getText().toString());
+        lose=Integer.parseInt(txtjs.getText().toString());
         if(opr=="+"){
             hasil=a+b;
         }else if(opr=="-"){
@@ -51,19 +54,24 @@ public class MainActivity extends AppCompatActivity {
         }else if(opr=="/"){
             hasil=a/b;
         }
-        txtjb.setText(Integer.toString(hasil));
+
         if(c==hasil){
+            win++;
+            txtjb.setText(Integer.toString(win));
+            Toast.makeText(this,Integer.toString(win),Toast.LENGTH_LONG).show();
             txtjwb.setText("Your Answer Is Correct");
-            txtjs.setText(Integer.toString(d));
         }else {
+            lose++;
+            txtjs.setText(Integer.toString(lose));
+            Toast.makeText(this,Integer.toString(lose),Toast.LENGTH_LONG).show();
             txtjwb.setText("Your Answer is Wrong");
-            txtjs.setText(isi.getText());
-        }
+              }
+
 
         SharedPreferences sh=getSharedPreferences("MyOwnShared",MODE_PRIVATE);
         SharedPreferences.Editor myshedt=sh.edit();
-        myshedt.putString("user",txtjb.getText().toString());
-        myshedt.putString("age",txtjs.getText().toString());
+        myshedt.putString("win",txtjb.getText().toString());
+        myshedt.putString("lose",txtjs.getText().toString());
         myshedt.commit();
     }
 
@@ -71,8 +79,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         SharedPreferences shd=getSharedPreferences("MyOwnShared",MODE_APPEND);
-        String s1=shd.getString("user","");
-        String i1=shd.getString("age",""); //mendapatkan nilai yang telah disave
+        String s1=shd.getString("win","");
+        String i1=shd.getString("lose",""); //mendapatkan nilai yang telah disave
         txtjb.setText(s1);
         txtjs.setText(i1);
     }
